@@ -67,7 +67,7 @@ function game() {
     let computerScore = 0;
     
     // For each of 5 rounds
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; true; i++) {
         // Get suitable input from user
         let playerSelection = capitalise(prompt("Rock, paper or scissors?"));
         while (playerSelection != "Rock" && playerSelection != "Paper" && 
@@ -88,7 +88,7 @@ function game() {
             default:
                 break;
         }        
-     }
+    }
     
     // Report winner of match
     if (playerScore > computerScore) {
