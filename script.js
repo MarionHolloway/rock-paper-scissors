@@ -1,20 +1,3 @@
-/* This function takes a string and returns that string with only the first letter capitalized. 
-It can take strings that are lowercase, UPPERCASE or BoTh.*/
-function capitalise(string){
-    // Select and capitalise first letter
-    var firstLetter = string.charAt(0);
-    firstLetter = firstLetter.toUpperCase();
-
-    // Select and make the remaining letters lowercase 
-    var otherLetters = string.slice(1);
-    otherLetters = otherLetters.toLowerCase();
-
-    // Rebuild string
-    newString = firstLetter + otherLetters;
-
-    return newString;
-}
-
 /* This function randomly return "rock", "paper", or scissors"*/
 function computerPlay() {
     let selection;
@@ -38,75 +21,66 @@ function computerPlay() {
 
 /* This function plays a single round of Rock Paper Scissors. */
 function playRound(e) {
-    let winner;
-    const playerSelection = this.id;
-    const computerSelection = computerPlay();
-    
-    // Determine winner
+    // If no one has won yet
+    if (playerTotal < 5 && computerTotal < 5) {
+        // Grab the button id which describes the player's choice
+        const playerSelection = this.id; 
+        const computerSelection = computerPlay();
+        
+        // Determine winner
+        updateScores(determineWinner(playerSelection, computerSelection));
+
+    } 
+    if (playerTotal === 5 || computerTotal === 5) {
+        if (playerTotal > computerTotal) {
+            winner.textContent = "You win!";
+        }
+        else if (playerScore < computerScore) {
+            winner.textContent = "You lose!";
+        }
+    }
+}  
+
+/* This function updates the scores according to who won the round. */
+function updateScores(winnerOfRound) {
+    switch (winnerOfRound) {
+        case "player":
+            playerTotal++;
+            playerScore.textContent = "You: " + playerTotal;
+            break;
+        case "computer":
+            computerTotal++;
+            computerScore.textContent = "Computer: " + computerTotal;
+            break;
+        default:
+            break;
+    }
+}
+
+/* This function controls the logic for determining who won the round.
+It takes two arguments: the player's choice and the computer's choice and
+returns the winner of the round.*/
+function determineWinner(playerSelection, computerSelection) {
+    let winnerOfRound;
     if (playerSelection == computerSelection) {
-        //console.log("There is a tie!");
-        div.textContent = "There is a tie!";
+        results.textContent = "There is a tie!";
     }
     // There are three conditions in which the player can win
     else if ((playerSelection == "Rock" && computerSelection == "Scissors") || 
             (playerSelection == "Scissors" && computerSelection == "Paper") || 
             (playerSelection == "Paper" && computerSelection == "Rock")) {
-        // Change message to "You win! [player selection] beats [computer selection]"
-        //console.log("You win! " + playerSelection + " beats " + computerSelection + ".");
-        div.textContent = "You win! " + playerSelection + " beats " + computerSelection + ".";
-        winner = "player";
+        results.textContent = "You win! " + playerSelection + " beats " + computerSelection + ".";
+        winnerOfRound = "player";
     }
     else {
-        //console.log("You lose! " + computerSelection + " beats " + playerSelection + ".");
-        div.textContent = "You lose! " + computerSelection + " beats " + playerSelection + ".";
-        winner = "computer";
-    }        
-
-    //return winner;
-}  
-
-/* This function plays a 5 round game, keeps score, and reports who wins at the end.*/
-function game() {
-    let playerScore = 0;
-    let computerScore = 0;
-    
-    // For each of 5 rounds
-    for (let i = 0; true; i++) {
-        // Get suitable input from user
-        let playerSelection = capitalise(prompt("Rock, paper or scissors?"));
-        while (playerSelection != "Rock" && playerSelection != "Paper" && 
-                playerSelection != "Scissors") {
-            playerSelection = capitalise(prompt("Let's try that again... Rock, paper or scissors?"));
-        }
-        
-        let winnerOfRound = playRound(playerSelection, computerPlay());
-        
-        // Update scores
-        switch (winnerOfRound) {
-            case "player":
-                playerScore++;
-                break;
-            case "computer":
-                computerScore++;
-                break;
-            default:
-                break;
-        }        
+        results.textContent = "You lose! " + computerSelection + " beats " + playerSelection + ".";
+        winnerOfRound = "computer";
     }
-    
-    // Report winner of match
-    if (playerScore > computerScore) {
-        console.log("You win! You scored " + playerScore + " and the computer scored " + 
-                computerScore + ". Well done!");
-    }
-    else if (playerScore < computerScore) {
-        console.log("You lose! You scored " + playerScore + " and the computer scored " + 
-                computerScore + ". Commiserations!");
-    }
-    else {
-        console.log("You tied! You both scored " + playerScore + ". Better try again!");
-    }
+    return winnerOfRound;
 }
+
+let playerTotal = 0;
+let computerTotal = 0;
 
 const rock = document.querySelector("button#Rock");
 const paper = document.querySelector("button#Paper");
@@ -116,4 +90,7 @@ rock.addEventListener("click", playRound);
 paper.addEventListener("click", playRound);
 scissors.addEventListener("click", playRound);
 
-const div = document.querySelector("#results");
+const results = document.querySelector("#results");
+const computerScore = document.querySelector("#computer");
+const playerScore = document.querySelector("#player");
+const winner = document.querySelector("#winner");
