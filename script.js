@@ -36,29 +36,29 @@ function computerPlay() {
     return selection;
 }
 
-/* This function plays a single round of Rock Paper Scissors. 
-It takes two parameters: playerSelection and computerSelection.
-It returns the winner of the round as a string. */
+/* This function plays a single round of Rock Paper Scissors. */
 function playRound(e) {
-    console.log(e);
     let winner;
     const playerSelection = this.id;
     const computerSelection = computerPlay();
     
     // Determine winner
     if (playerSelection == computerSelection) {
-        console.log("There is a tie!");
+        //console.log("There is a tie!");
+        div.textContent = "There is a tie!";
     }
     // There are three conditions in which the player can win
     else if ((playerSelection == "Rock" && computerSelection == "Scissors") || 
             (playerSelection == "Scissors" && computerSelection == "Paper") || 
             (playerSelection == "Paper" && computerSelection == "Rock")) {
         // Change message to "You win! [player selection] beats [computer selection]"
-        console.log("You win! " + playerSelection + " beats " + computerSelection + ".");
+        //console.log("You win! " + playerSelection + " beats " + computerSelection + ".");
+        div.textContent = "You win! " + playerSelection + " beats " + computerSelection + ".";
         winner = "player";
     }
     else {
-        console.log("You lose! " + computerSelection + " beats " + playerSelection + ".");
+        //console.log("You lose! " + computerSelection + " beats " + playerSelection + ".");
+        div.textContent = "You lose! " + computerSelection + " beats " + playerSelection + ".";
         winner = "computer";
     }        
 
@@ -115,3 +115,5 @@ const scissors = document.querySelector("button#Scissors");
 rock.addEventListener("click", playRound);
 paper.addEventListener("click", playRound);
 scissors.addEventListener("click", playRound);
+
+const div = document.querySelector("#results");
