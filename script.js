@@ -39,8 +39,12 @@ function computerPlay() {
 /* This function plays a single round of Rock Paper Scissors. 
 It takes two parameters: playerSelection and computerSelection.
 It returns the winner of the round as a string. */
-function playRound(playerSelection, computerSelection) {
+function playRound(e) {
+    console.log(e);
     let winner;
+    const playerSelection = this.id;
+    const computerSelection = computerPlay();
+    
     // Determine winner
     if (playerSelection == computerSelection) {
         console.log("There is a tie!");
@@ -58,7 +62,7 @@ function playRound(playerSelection, computerSelection) {
         winner = "computer";
     }        
 
-    return winner;
+    //return winner;
 }  
 
 /* This function plays a 5 round game, keeps score, and reports who wins at the end.*/
@@ -104,4 +108,10 @@ function game() {
     }
 }
 
-game();
+const rock = document.querySelector("button#Rock");
+const paper = document.querySelector("button#Paper");
+const scissors = document.querySelector("button#Scissors");
+
+rock.addEventListener("click", playRound);
+paper.addEventListener("click", playRound);
+scissors.addEventListener("click", playRound);
