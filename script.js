@@ -35,7 +35,7 @@ function playRound(e) {
         if (playerTotal > computerTotal) {
             winner.textContent = "You win!";
         }
-        else if (playerScore < computerScore) {
+        else if (playerTotal < computerTotal) {
             winner.textContent = "You lose!";
         }
     }
